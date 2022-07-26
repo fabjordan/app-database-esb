@@ -1,6 +1,6 @@
 var amqp = require("amqplib/callback_api");
 const axios = require("axios");
-var response = require("./response");
+var response = require("./amqp/response");
 
 const queue = "cache-manager-response";
 
