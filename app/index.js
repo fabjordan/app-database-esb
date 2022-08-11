@@ -1,17 +1,23 @@
-require('dotenv').config();
 const bodyParser = require("body-parser");
 const express = require("express");
-const server = require('./server');
 const cors = require("cors");
-const app = express();
-const port = process.env.APP_PORT;
+require('dotenv').config();
 
+const init = require('./init');
+const WebhooksRouter = require('./routes/WebhooksRoute');
+
+const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 app.use(cors());
 
-app.use("/webhooks", require("./routes/webhooksRoute"));
+// Create a receiver when start project
+init.createReceiver();
 
-app.listen(port, () => {
-  console.log(`${process.env.APP_NAME} is running at http://localhost:${port}`);
+// Routes
+app.use("/webhooks", WebhooksRouter);
+
+// Run server
+app.listen(process.env.APP_PORT, () => {
+  console.log(`${process.env.APP_NAME} is running at http://localhost:${process.env.APP_PORT}`);
 });
